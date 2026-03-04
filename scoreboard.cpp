@@ -1,0 +1,3 @@
+class Scoreboard : public CPU {
+
+}

@@ -11,8 +11,12 @@ class FuncUnit {
     virtual void apply(CPU&, const Instruction&);
 };
 
+template <typename T>
 class RegisterFile {
-
+private:
+    std::vector <T> regVal;
+public:
+    RegisterFile(int rn) : regVal(rn) {}
 };
 
 class Memory {
@@ -37,13 +41,12 @@ public:
 
 class CPU {
 private:
-    RegisterFile rf;
-    Memory mem;
-    vector <FuncUnit> funcUnits;
+    std::unique_ptr <Memory> mem;
+    std::unique_ptr <RegisterFile <int64_t>> rf; // This can be changed!
+    std::vector <std::unique_ptr<FuncUnit>> funcUnits;
 public:
-    inline virtual void push_func(FuncUnit&& fu) {
-        funcUnits.push_back(fu);
-    };
+    CPU(std::unique_ptr<Memory> mem, std::unique_ptr<RegisterFile <int64_t>> rf, std::vector <std::unique_ptr<FuncUnit>>&& funcUnits)
+        : rf(std::move(rf)), mem(std::move(mem)), funcUnits(std::move(funcUnits)) {}
     virtual void push(const Instruction&) = 0;
     virtual void run() = 0;
     virtual uint64_t getRegister() = 0;

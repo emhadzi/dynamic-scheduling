@@ -3,30 +3,32 @@
 #include <vector>
 #include <iostream>
 
-class Instruction_type {
+class FuncUnit;
+
+struct Instruction_type {
     std::string name;
     // Vector to acceptable functional units for this instruction
     std::vector <FuncUnit*> goodUnits;
 };
 
-class Instruction {
+struct Instruction {
     Instruction_type *type;
 };
 
 // The sizes are not standard but should be enough
 
-class R_instruction : Instruction {
+struct R_instruction : public Instruction {
     uint16_t rs;
     uint16_t rt;
     uint16_t rd;
 };
 
-class I_instruction : Instruction {
+struct I_instruction : public Instruction {
     uint16_t rs;
     uint16_t rt;
     uint32_t imm;
 };
 
-class J_instruction : Instruction {
+struct J_instruction : public Instruction {
     uint64_t imm;
 };
