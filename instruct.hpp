@@ -1,34 +1,24 @@
 #pragma once
 #include <cstdint>
-#include <vector>
-#include <iostream>
+#include <variant>
 
-class FuncUnit;
-
-struct Instruction_type {
-    std::string name;
-    // Vector to acceptable functional units for this instruction
-    std::vector <FuncUnit*> goodUnits;
-};
-
-struct Instruction {
-    Instruction_type *type;
+enum class Opcode {
+    ADD, SUB, MULT, DIV, LOAD, STORE, JUMP, CMP
 };
 
 // The sizes are not standard but should be enough
-
-struct R_instruction : public Instruction {
-    uint16_t rs;
-    uint16_t rt;
-    uint16_t rd;
+struct R_args {
+    uint16_t rs, rt, rd;
 };
-
-struct I_instruction : public Instruction {
-    uint16_t rs;
-    uint16_t rt;
+struct I_args {
+    uint16_t rs, rt;
     uint32_t imm;
 };
-
-struct J_instruction : public Instruction {
+struct J_args {
     uint64_t imm;
+};
+
+struct Instruction {
+    Opcode opcode;
+    std::variant<R_args, I_args, J_args> args;
 };

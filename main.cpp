@@ -1,5 +1,6 @@
-#include "cpu.hpp"
+#include "scoreboard.cpp"
+#include "instruct.cpp"
 
 int main() {
-    CPU cpu(1 << 20, 32);
+    Scoreboard sb(1 << 20, 32);
 }
